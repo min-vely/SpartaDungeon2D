@@ -13,6 +13,7 @@ public class ItemEquip : MonoBehaviour, IPointerClickHandler
     public GameObject EquipItemPanel;
     public GameObject UnEquipItemPanel;
     public TextMeshProUGUI ItemInfo;
+    public Image equipImage;
 
     private string sourceImageFileName;
     private int idx;
@@ -25,6 +26,7 @@ public class ItemEquip : MonoBehaviour, IPointerClickHandler
         playerItems = player.GetPlayerItems();
         equipItems = player.GetEquippedItems();
     }
+
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -51,31 +53,33 @@ public class ItemEquip : MonoBehaviour, IPointerClickHandler
 
     private void FindItem()
     {
-        idx = 0;
+        idx = -1;
         for (int i = 0; i < playerItems.Count; i++)
         {
             if (playerItems[i].FileName == sourceImageFileName)
             {
                 idx = i;
-                // 장착 여부에 따라 다른 판넬 띄우기
                 if (!playerItems[i].IsEquipped)
                 {
-                    UnEquipItemPanel.SetActive(true);
+                    EquipItemPanel.SetActive(true);
+                    equipImage.gameObject.SetActive(true);
+                    ItemInfo.text = $"아이템 이름 : \n{playerItems[i].ItemName}\n아이템 설명 : \n{playerItems[i].ItemInfo}\n{playerItems[i].AbilityName} : {playerItems[i].AbilityValue}\n장착 완료";
+                    EquipItem();
 
                 }
                 else
                 {
-                    EquipItemPanel.SetActive(true);
-                    ItemInfo.text = $"아이템 이름 : \n{playerItems[i].ItemName}\n아이템 설명 : \n{playerItems[i].ItemInfo}\n{playerItems[i].AbilityName} : {playerItems[i].AbilityValue}\n장착 완료";
+                    UnEquipItemPanel.SetActive(true);
+                    equipImage.gameObject.SetActive(false);
+                    EquipItem();
                 }
             }
         }
     }
 
-    public void EquipItem()
+    private void EquipItem()
     {
         ItemEquipped(equipItems, idx, playerItems[idx]);
-        //EquipItemPanel.SetActive(false);
     }
 
 

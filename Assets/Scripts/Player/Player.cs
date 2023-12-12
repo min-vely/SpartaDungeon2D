@@ -6,7 +6,6 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
-
     public Character player;
     //public static StoreManager storeManager;
     //public static InventoryManager inventoryManager;
@@ -45,8 +44,6 @@ public class Player : MonoBehaviour
     // 캐릭터, 인벤토리 아이템, 상점 아이템 정보
     private void Start()
     {
-        //itemEquip = GameObject.Find("ItemImage").GetComponent<ItemEquip>();
-        //equipItems = itemEquip.GetEquippedItems();
         GameDataSetting();
         //storeManager = new StoreManager(player);
         //inventoryManager = new InventoryManager();

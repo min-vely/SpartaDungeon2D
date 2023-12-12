@@ -9,10 +9,10 @@ public class Character
     public string Name { get; }
     public string Job { get; }
     public int Level { get; private set; }
-    public int Atk { get; private set; }
-    public int Def { get; private set; }
-    public int Hp { get; private set; }
-    public int Critical { get; private set; }
+    public int Atk { get; set; }
+    public int Def { get; set; }
+    public int Hp { get; set; }
+    public int Critical { get; set; }
     public int Gold { get; private set; }
 
     #endregion

@@ -19,12 +19,14 @@ public class ItemEquip : MonoBehaviour, IPointerClickHandler
     private int idx;
     private List<Items> playerItems;
     private List<int> equipItems;
+    private Image sourceImage;
 
     private void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
         playerItems = player.GetPlayerItems();
         equipItems = player.GetEquippedItems();
+        sourceImage = GetComponent<Image>();
     }
 
 
@@ -36,8 +38,6 @@ public class ItemEquip : MonoBehaviour, IPointerClickHandler
 
     private void GetImageName()
     {
-        Image sourceImage = GetComponent<Image>();
-
         if (sourceImage != null)
         {
             sourceImageFileName = sourceImage.sprite.name;

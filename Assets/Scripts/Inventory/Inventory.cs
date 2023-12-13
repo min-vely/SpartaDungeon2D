@@ -11,7 +11,7 @@ using static UnityEditor.Progress;
 
 public class Inventory : MonoBehaviour
 {
-    public Image itemImage;
+    //public Image itemImage;
     public TextMeshProUGUI itemAmount;
 
     private void Start()

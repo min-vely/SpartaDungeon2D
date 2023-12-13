@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class Store : MonoBehaviour/*, IPointerClickHandler*/
+public class Store : MonoBehaviour, IPointerClickHandler
 {
     private Player player;
     public TextMeshProUGUI ItemInfo;
@@ -13,21 +13,30 @@ public class Store : MonoBehaviour/*, IPointerClickHandler*/
     private string sourceImageFileName;
     private int idx;
     private List<StoreItems> storeItems;
+    private List<Items> playerItems;
+    private List<int> boughtItems;
+
+
+    //public Store(Character player)
+    //{
+    //    this.player = player;
+    //}
 
     private void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
         storeItems = player.GetStoreItems();
-
+        playerItems = player.GetPlayerItems();
+        boughtItems = player.GetBoughtItems();
         GetStoreItemName();
     }
 
 
-    //public void OnPointerClick(PointerEventData eventData)
-    //{
-    //    //Debug.Log("아이템 클릭");
-    //    //GetStoreItemName();
-    //}
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        //Debug.Log("아이템 클릭");
+        BuyStore(boughtItems);
+    }
 
     private void GetStoreItemName()
     {
@@ -62,115 +71,39 @@ public class Store : MonoBehaviour/*, IPointerClickHandler*/
                 ItemInfo.text = "";
             }
         }
-        Debug.Log(storeItems[idx].ItemName);
-    }
-
-
-    // 상점 화면
-    public void DisplayStore()
-    {
-        //Console.WriteLine("상점");
-        //Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.");
-        //Console.WriteLine("[보유 골드]");
-
-        //Console.WriteLine($"{player.Gold} G");
-        //Console.WriteLine("[아이템 목록]");
-
-        //var table = new ConsoleTable("아이템명", "효과", "아이템 설명", "가격");
-
-        //for (int i = 0; i < Program.storeItems.Count; i++)
-        //{
-        //    // 아이템 구매 여부 확인
-        //    string priceOrSoldOut = Program.boughtItems.Contains(i) ? "구매완료" : $"{Program.storeItems[i].Gold}";
-        //    table.AddRow($"- {Program.storeItems[i].ItemName}", $"{Program.storeItems[i].AbilityName} +{Program.storeItems[i].AbilityValue}", $"{Program.storeItems[i].ItemInfo}", priceOrSoldOut);
-        //}
-        //table.Write();
-
-        //Console.WriteLine("1. 아이템 구매");
-        //Console.WriteLine("2. 아이템 판매");
-        //Console.WriteLine("0. 나가기");
-        //Console.WriteLine("원하시는 행동을 입력해주세요.");
-
-        //int input = Program.CheckValidInput(0, 2);
-        //switch (input)
-        //{
-        //    case 0:
-        //        Program.DisplayGameIntro();
-        //        break;
-        //    case 1:
-        //        BuyStore(Program.boughtItems);
-        //        break;
-        //    case 2:
-        //        SellStore();
-        //        break;
-        //}
+        //Debug.Log(storeItems[idx].ItemName);
     }
 
     // 상점의 아이템 구매 화면
-    //void BuyStore(List<int> boughtItems)
-    //{
-    //    Console.WriteLine("상점 - 아이템 구매");
-    //    Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.");
-    //    Console.WriteLine("[보유 골드]");
-    //    Console.WriteLine($"{player.Gold} G");
-    //    Console.WriteLine("[아이템 목록]");
+    private void BuyStore(List<int> boughtItems)
+    {
+        StoreItems selectedItem = storeItems[idx];
 
-    //    var table = new ConsoleTable("아이템명", "효과", "아이템 설명", "가격");
+        // 이미 구매한 아이템인지 확인
+        if (boughtItems.Contains(idx))
+        {
+            // 아이템 버튼 클릭 못하게 막기
+            GetComponent<Button>().interactable = false;
+            Debug.Log("이미 구매한 아이템입니다.");
+        }
+        // 보유 골드가 아이템 가격보다 적다면
+        else if (player.Gold < selectedItem.Gold)
+        {
+            Debug.Log("보유 골드가 부족해요 ㅠㅅㅠ");
+        }
+        else
+        {
+            Debug.Log("구매 완료!");
+            // 아이템 구매 시 골드 차감
+            player.Gold -= selectedItem.Gold;
+            boughtItems.Add(idx);
 
-    //    for (int i = 0; i < Program.storeItems.Count; i++)
-    //    {
-    //        // 아이템 구매 여부 확인
-    //        string priceOrSoldOut = boughtItems.Contains(i) ? "구매완료" : $"{Program.storeItems[i].Gold}";
-    //        table.AddRow($"- {i + 1} {Program.storeItems[i].ItemName}", $"{Program.storeItems[i].AbilityName} +{Program.storeItems[i].AbilityValue}", $"{Program.storeItems[i].ItemInfo}", priceOrSoldOut);
-    //    }
-    //    table.Write();
+            // 구매한 아이템을 items 리스트에 추가
+            Items purchasedItem = new Items(selectedItem.ItemName, selectedItem.FileName, selectedItem.AbilityName, selectedItem.AbilityValue, selectedItem.ItemInfo, selectedItem.Gold);
+            playerItems.Add(purchasedItem);
+        }
+    }
 
-    //    Console.WriteLine("0. 나가기");
-    //    Console.WriteLine("원하시는 행동을 입력해주세요.");
-
-    //    int input = Program.CheckValidInput(0, Program.storeItems.Count);
-
-    //    if (input == 0)
-    //    {
-    //        Program.DisplayGameIntro();
-    //        return;
-    //    }
-
-    //    int itemIndex = input - 1;
-    //    StoreItems selectedItem = Program.storeItems[itemIndex];
-
-    //    // 이미 구매한 아이템인지 확인
-    //    if (boughtItems.Contains(itemIndex))
-    //    {
-    //        Console.ForegroundColor = ConsoleColor.DarkRed;
-    //        Console.WriteLine("이미 구매한 아이템입니다. 2초 후 구매 창으로 돌아갑니다.");
-    //        Console.ResetColor();
-    //        Thread.Sleep(2000);
-    //        Store(boughtItems);
-    //    }
-    //    // 보유 골드가 아이템 가격보다 적다면
-    //    else if (player.Gold < selectedItem.Gold)
-    //    {
-    //        Console.ForegroundColor = ConsoleColor.DarkRed;
-    //        Console.WriteLine("보유 골드가 부족해요 ㅠㅅㅠ 2초 후 구매 창으로 돌아갑니다.");
-    //        Console.ResetColor();
-    //        Thread.Sleep(2000);
-    //        Store(boughtItems);
-    //    }
-    //    else
-    //    {
-    //        Console.WriteLine("구매 완료! 2초 후 구매 창으로 돌아갑니다.");
-    //        // 아이템 구매 시 골드 차감
-    //        player.Gold -= selectedItem.Gold;
-    //        boughtItems.Add(itemIndex);
-
-    //        // 구매한 아이템을 items 리스트에 추가
-    //        Items purchasedItem = new Items(selectedItem.ItemName, selectedItem.AbilityName, selectedItem.AbilityValue, selectedItem.ItemInfo, selectedItem.Gold);
-    //        Program.items.Add(purchasedItem);
-    //        Thread.Sleep(2000);
-    //        Store(boughtItems);
-    //    }
-    //}
 
     // 상점의 아이템 판매 화면
     void SellStore()

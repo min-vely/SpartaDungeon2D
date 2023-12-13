@@ -7,9 +7,6 @@ using TMPro;
 public class Player : MonoBehaviour
 {
     public Character player;
-    //public static StoreManager storeManager;
-    //public static InventoryManager inventoryManager;
-    //public static DungeonManager dungeonManager;
 
     #region Field
 
@@ -28,7 +25,6 @@ public class Player : MonoBehaviour
     // 기존의 상점용 아이템 배열 storeItems 대신 리스트 사용
     private List<StoreItems> storeItems = new List<StoreItems>();
 
-    private ItemEquip itemEquip;
     public TextMeshProUGUI jobTxt;
     public TextMeshProUGUI nameTxt;
     public TextMeshProUGUI lvTxt;
@@ -41,14 +37,12 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Init
+
+
     // 캐릭터, 인벤토리 아이템, 상점 아이템 정보
     private void Start()
     {
         GameDataSetting();
-        //storeManager = new StoreManager(player);
-        //inventoryManager = new InventoryManager();
-        //dungeonManager = new DungeonManager(player);
-        //DisplayGameIntro();
         DisplayMyInfo();
         panelStats();
     }
@@ -58,17 +52,13 @@ public class Player : MonoBehaviour
         // 캐릭터 정보 세팅(이름, 직업, 레벨, 공격력, 방어력, 체력, 치명타, 돈)
         player = new Character("루루", "서포터", 1, 47, 26, 595, 20, 15000);
 
-        // 여긴 아이템 1 = 인덱스 0번!!!!!
-        // 기본 보유 중인 아이템 정보 세팅(배열 -> 리스트로 변경)
+        // 기본 보유 중인 아이템 정보 세팅
         items.Add(new Items("존야의 모래시계", "zhonya", "방어력", 45, "띵 - ", 1500));
         items.Add(new Items("구인수의 격노검", "guinsoo", "공격력", 30, "AD룰루 필수템", 1600));
-        //items.Add(new Items("몰락한 왕의 검", "공격력", 40, "체력 비례 데미지", 1600));
-        //items.Add(new Items("부서진 여왕의 왕관", "체력", 250, "챔피언 보호 효과", 1400));
         
-        // 상점용 아이템 정보 세팅(배열 -> 리스트로 변경) 
+        // 상점용 아이템 정보 세팅
         storeItems.Add(new StoreItems("스태틱의 단검", "statikk", "치명타", 20, "찌릿찌릿", 1500));
         storeItems.Add(new StoreItems("강철심장", "heartsteel", "체력", 800, "깡!", 1600));
-        //storeItems.Add(new StoreItems("가고일 돌갑옷", "방어력", 60, "룰루로 이걸 왜 삼", 1600));
     }
     #endregion
 

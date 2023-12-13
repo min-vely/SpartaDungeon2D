@@ -23,17 +23,10 @@ public class Store : MonoBehaviour, IPointerClickHandler
     private List<Items> playerItems;
     private List<int> boughtItems;
 
-
-    // 생성자를 이용하여 addItem 오브젝트를 받아옴
-    public Store(AddItem addItem)
-    {
-        this.addItem = addItem;
-    }
-
     private void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
-        addItem = new AddItem();
+        addItem = GameObject.Find("InventoryCanvas").GetComponent<AddItem>();
         storeItems = player.GetStoreItems();
         playerItems = player.GetPlayerItems();
         boughtItems = player.GetBoughtItems();

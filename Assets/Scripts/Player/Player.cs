@@ -29,14 +29,14 @@ public class Player : MonoBehaviour
     private List<StoreItems> storeItems = new List<StoreItems>();
 
     private ItemEquip itemEquip;
-    public TextMeshProUGUI job;
-    public TextMeshProUGUI name;
-    public TextMeshProUGUI lv;
-    public TextMeshProUGUI gold;
-    public TextMeshProUGUI attack;
-    public TextMeshProUGUI defense;
-    public TextMeshProUGUI hp;
-    public TextMeshProUGUI critical;
+    public TextMeshProUGUI jobTxt;
+    public TextMeshProUGUI nameTxt;
+    public TextMeshProUGUI lvTxt;
+    public TextMeshProUGUI goldTxt;
+    public TextMeshProUGUI attackTxt;
+    public TextMeshProUGUI defenseTxt;
+    public TextMeshProUGUI hpTxt;
+    public TextMeshProUGUI criticalTxt;
 
     #endregion
 
@@ -76,18 +76,18 @@ public class Player : MonoBehaviour
     // 상태보기 화면
     private void DisplayMyInfo()
     {
-        job.text = player.Job;
-        name.text = player.Name;
-        lv.text = "Lv " + player.Level;
-        gold.text = player.Gold.ToString("N0");
+        jobTxt.text = player.Job;
+        nameTxt.text = player.Name;
+        lvTxt.text = "Lv " + player.Level;
+        goldTxt.text = player.Gold.ToString("N0");
     }
 
     private void panelStats()
     {
-        attack.text = "공격력 : " + player.Atk;
-        defense.text = "방어력 : " + player.Def;
-        hp.text = "체력 : " + player.Hp;
-        critical.text = "치명타 : " + player.Critical;
+        attackTxt.text = "공격력 : " + player.Atk;
+        defenseTxt.text = "방어력 : " + player.Def;
+        hpTxt.text = "체력 : " + player.Hp;
+        criticalTxt.text = "치명타 : " + player.Critical;
     }
 
     public List<Items> GetPlayerItems()
@@ -95,9 +95,19 @@ public class Player : MonoBehaviour
         return items;
     }
 
+    public List<StoreItems> GetStoreItems()
+    {
+        return storeItems;
+    }
+
     public List<int> GetEquippedItems()
     {
         return equippedItems;
+    }
+
+    public List<int> GetBoughtItems()
+    {
+        return boughtItems;
     }
 
     // 장착으로 얻은 능력치를 표시하는 메소드

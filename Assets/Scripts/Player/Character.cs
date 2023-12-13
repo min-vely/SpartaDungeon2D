@@ -13,7 +13,7 @@ public class Character
     public int Def { get; set; }
     public int Hp { get; set; }
     public int Critical { get; set; }
-    public int Gold { get; private set; }
+    public int Gold { get; set; }
 
     #endregion
 

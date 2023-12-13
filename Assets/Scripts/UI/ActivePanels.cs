@@ -7,32 +7,25 @@ public class ActivePanels : MonoBehaviour
     public GameObject statusBtn;
     public GameObject inventoryBtn;
     public GameObject storeBtn;
-    public Image background;
-
 
     public void ActivatePanel()
     {
         panel.SetActive(true);
-        SetBackgroundTransparency(true);
+        ActiveBtns(true);
         //Time.timeScale = 0.0f;
     }
 
     public void DeactivatePanel()
     {
         panel.SetActive(false);
-        SetBackgroundTransparency(false);
+        ActiveBtns(false);
         //Time.timeScale = 1.0f;
     }
 
-    private void SetBackgroundTransparency(bool isTransparent)
+    private void ActiveBtns(bool isActive)
     {
-        Color backgroundColor = background.color;
-
-        if (isTransparent)
+        if (isActive)
         {
-            // 배경을 약간 투명한 검은색으로 설정
-            backgroundColor = new Color(0, 0, 0, 0.5f);
-
             // 버튼 비활성화
             statusBtn.SetActive(false);
             inventoryBtn.SetActive(false);
@@ -40,14 +33,9 @@ public class ActivePanels : MonoBehaviour
         }
         else
         {
-            // 배경 원래대로
-            backgroundColor = new Color(0, 0, 0, 0);
-
             statusBtn.SetActive(true);
             inventoryBtn.SetActive(true);
             storeBtn.SetActive(true);
         }
-
-        background.color = backgroundColor;
     }
 }
